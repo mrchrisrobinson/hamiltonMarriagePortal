@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Hamilton County Marriage Application Portal</title>
+        <meta name="description" content="This is a simple webform to gather information about the new marriage applications for Hamilton County. A new Marriage Application is created and sent via eSign Genie.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <container>
+
+            <h1>Hamilton County Marriage Application</h1>
+          
+            <img 
+                 src="https://www.hamiltoncounty.in.gov/ImageRepository/Document?documentID=14087" 
+             />
+            <div class="container">
+              <form action="https://www.esigngenie.com/esign/api/templates/createFolder" method="POST">
+                <!-- Application Info-->
+                <fieldset>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="applicationNumber" name="applicatonNumber" type="text" class="mdl-textfield__input" required />
+                  <label for="applicationNumber" class="mdl-textfield__label">
+                    Application No.
+                  </label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="processedBy" name="processedBy" type="text" class="mdl-textfield__input" required />
+                  <label for="processedBy" class="mdl-textfield__label">
+                    Processed By
+                  </label>
+                </div>
+                </fieldset>
+                
+                <!-- Applicant 1 -->
+                <fieldset>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="firstname1" name="firstname1" type="text" class="mdl-textfield__input" required />
+                  <label for="firstname1" class="mdl-textfield__label">First Name</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="lastname1" name="lastname1" type="text" class="mdl-textfield__input" required />
+                  <label for="lastname1" class="mdl-textfield__label">Last Name</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="email1" name="email1" type="text" class="mdl-textfield__input" required />
+                  <label for="email1" class="mdl-textfield__label">Email</label>
+                </div>
+                </fieldset>
+                
+                <!-- Applicant 2 -->
+                <fieldset>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="firstname2" name="firstname2" type="text" class="mdl-textfield__input" required />
+                  <label for="firstname2" class="mdl-textfield__label">First Name</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="lastname2" name="lastname2" type="text" class="mdl-textfield__input" required />
+                  <label for="lastname2" class="mdl-textfield__label">Last Name</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input id="email2" name="email2" type="text" class="mdl-textfield__input" required />
+                  <label for="email2" class="mdl-textfield__label">Email</label>
+                </div>
+                </fieldset>
+                <!-- Sumbit -->
+                <div class="button">
+                    <button id="button" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+                </div>
+              </form>
+            </div>
+              
+          </container>
+
+
+        <script>
+            //Sets up the button onClick event 
+            const btn = document.querySelector('button');
+
+            //Name of the function to send the API request
+            function sendData( data ) {
+            
+            //API Request body to eSign Genie
+            var data  = JSON.stringify(
+                {"folderName":"folder name3",
+                "templateIds":[27403],
+                "fields":
+                {
+                    "Date Signed":"",
+                    "S2Test":"TEST_VALUE"
+                },
+                "parties":
+                [{
+                "firstName":"Test",
+                "lastName":"McTesterson",
+                "emailId":"example@email.com",
+                "permission":"FILL_FIELDS_AND_SIGN",
+                "sequence":1
+                }],
+                "signInSequence":false,
+                "createEmbeddedSigningSession":true,
+                "createEmbeddedSigningSessionForAllParties":true,
+                "signSuccessUrl":"http://kmllawgroup.com/",
+                "signDeclineUrl":"",
+                "themeColor":"#0066CB"
+                });
+
+                const XHR = new XMLHttpRequest();   //Creates the actual API request object
+                XHR.withCredentials = true;         //Allows the use of OAuth2 Credintials
+            
+            // Define what happens on successful data submission
+            XHR.addEventListener( 'load', function( event ) {
+                alert( 'Yeah! Data sent and response loaded.' );
+            } );
+
+            // Define what happens in case of error
+            XHR.addEventListener(' error', function( event ) {
+                alert( 'Oops! Something went wrong.' );
+            } );
+
+            // Set up our request to create a new Document
+            XHR.open( 'POST', 'https://www.esigngenie.com/esign/api/templates/createFolder' );
+
+            //Use you API Token. This should be abstracted to safety.
+            XHR.setRequestHeader("Authorization", "Bearer b404b3f9a2d44cb9986e3be497bb4631");
+            
+            //Set the correct Header information
+            XHR.setRequestHeader("Content-Type", "application/json");
+            
+            // Send our FormData object; HTTP headers are set automatically
+            XHR.send( data );
+            }
+
+            //Event Listener. Executes "sendData()" upon button click.
+            btn.addEventListener( 'click', function() 
+            { sendData( {test:'ok'} ); 
+            } )
+
+        </script>
+    </body>
+</html>
